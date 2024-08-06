@@ -14,8 +14,5 @@
             </div>
         </div>
 
-        <div class="bg-yellow-600">
-            here
-        </div>
     </div>
 </x-app-layout>
