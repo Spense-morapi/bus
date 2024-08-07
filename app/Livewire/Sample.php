@@ -8,6 +8,6 @@ class Sample extends Component
 {
     public function render()
     {
-        return view('livewire.sample');
+        return view('livewire.sample')->layout('layouts.app')->slot('main');
     }
 }
