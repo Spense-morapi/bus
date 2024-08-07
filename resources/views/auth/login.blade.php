@@ -5,9 +5,9 @@
                  src="{{ asset('images/login-office.jpeg') }}"
                  alt="Office"/>
         </div>
-        <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-            <div class="w-full">
-                <h1 class="mb-4 text-xl font-semibold text-gray-700">
+        <div class="flex items-center justify-center p-6 sm:p-12 md:w-1/2  dark:bg-gray-700  dark:text-gray-100 text-gray-800">
+            <div class="w-full ">
+                <h1 class="mb-4 text-xl font-semibold">
                     Login
                 </h1>
 
@@ -16,7 +16,7 @@
 
                     <!-- Input[ype="email"] -->
                     <div class="mt-4">
-                        <x-input-label :value="__('Email')"/>
+                        <x-input-label :value="__('Email')" class=" dark:text-gray-100 text-gray-800"/>
                         <x-text-input type="email"
                                  id="email"
                                  name="email"
@@ -29,7 +29,7 @@
 
                     <!-- Input[ype="password"] -->
                     <div class="mt-4">
-                        <x-input-label for="password" :value="__('Password')"/>
+                        <x-input-label for="password" :value="__('Password')" class=" dark:text-gray-100 text-gray-800"/>
                         <x-text-input type="password"
                                  id="password"
                                  name="password"
