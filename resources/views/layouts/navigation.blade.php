@@ -1,320 +1,75 @@
-<!-- start navbar -->
-<div class="md:fixed md:w-full md:top-0 md:z-20 flex flex-row flex-wrap items-center bg-white p-6 border-b border-gray-300">
+<aside class="z-20 hidden w-64 overflow-y-auto bg-gray-50 md:block flex-shrink-0 text-purple-600 dark:bg-gray-800">
+    <div class="py-4 text-gray-500 dark:text-gray-400">
+        <a class="ml-6 text-lg font-bold text-gray-500 dark:text-gray-400" href="{{ route('dashboard') }}">
+            Windmill
+        </a>
 
-    <!-- logo -->
-    <div class="flex-none w-56 flex flex-row items-center">
-      {{-- <img src="img/logo.png" class="w-10 flex-none"> --}}
-      <strong class="capitalize ml-1 flex-1">cleopatra</strong>
+        <ul class="mt-6">
+            <li class="relative px-6 py-3">
+                <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" class="hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100 text-gray-800 transition-colors duration-150">
+                    <x-slot name="icon">
+                        <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                    </x-slot>
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+            </li>
 
-      <button id="sliderBtn" class="flex-none text-right text-gray-900 hidden md:block">
-        <i class="fad fa-list-ul"></i>
-      </button>
+            <li class="relative px-6 py-3">
+                <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')" class="hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100 text-gray-800 transition-colors duration-150">
+                    <x-slot name="icon">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </x-slot>
+                    {{ __('Users') }}
+                </x-nav-link>
+            </li>
+
+            <li class="relative px-6 py-3">
+                <x-nav-link href="{{ route('about') }}" :active="request()->routeIs('about')" class="hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100 text-gray-800 transition-colors duration-150">
+                    <x-slot name="icon">
+                        <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
+                             stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                        </svg>
+                    </x-slot>
+                    {{ __('About us') }}
+                </x-nav-link>
+            </li>
+
+            <li class="relative px-6 py-3">
+                <button class="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                        @click="toggleMultiLevelMenu" aria-haspopup="true">
+                <span class="inline-flex items-center">
+                    <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                    </svg>
+                    <span class="ml-4">Two-level menu</span>
+                </span>
+                    <svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <template x-if="isMultiLevelMenuOpen">
+                    <ul x-transition:enter="transition-all ease-in-out duration-300"
+                        x-transition:enter-start="opacity-25 max-h-0" x-transition:enter-end="opacity-100 max-h-xl"
+                        x-transition:leave="transition-all ease-in-out duration-300"
+                        x-transition:leave-start="opacity-100 max-h-xl" x-transition:leave-end="opacity-0 max-h-0"
+                        class="p-2 mt-2 space-y-2 overflow-hidden text-sm font-medium text-gray-500 rounded-md shadow-inner bg-gray-50 dark:text-gray-400 dark:bg-gray-900"
+                        aria-label="submenu">
+                        <li class="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
+                            <a class="w-full" href="#">Child menu</a>
+                        </li>
+                    </ul>
+                </template>
+            </li>
+        </ul>
     </div>
-    <!-- end logo -->
-
-    <!-- navbar content toggle -->
-    <button id="navbarToggle" class="hidden md:block md:fixed right-0 mr-6">
-      <i class="fad fa-chevron-double-down"></i>
-    </button>
-    <!-- end navbar content toggle -->
-
-    <!-- navbar content -->
-    <div id="navbar" class="animated md:hidden md:fixed md:top-0 md:w-full md:left-0 md:mt-16 md:border-t md:border-b md:border-gray-200 md:p-10 md:bg-white flex-1 pl-3 flex flex-row flex-wrap justify-between items-center md:flex-col md:items-center">
-      <!-- left -->
-      <div class="text-gray-600 md:w-full md:flex md:flex-row md:justify-evenly md:pb-10 md:mb-10 md:border-b md:border-gray-200">
-        <a class="mr-2 transition duration-500 ease-in-out hover:text-gray-900" href="#" title="email"><i class="fad fa-envelope-open-text"></i></a>
-        <a class="mr-2 transition duration-500 ease-in-out hover:text-gray-900" href="#" title="email"><i class="fad fa-comments-alt"></i></a>
-        <a class="mr-2 transition duration-500 ease-in-out hover:text-gray-900" href="#" title="email"><i class="fad fa-check-circle"></i></a>
-        <a class="mr-2 transition duration-500 ease-in-out hover:text-gray-900" href="#" title="email"><i class="fad fa-calendar-exclamation"></i></a>
-      </div>
-      <!-- end left -->
-
-      <!-- right -->
-      <div class="flex flex-row-reverse items-center">
-
-        <!-- user -->
-        <div class="dropdown relative md:static">
-
-          <button class="menu-btn focus:outline-none focus:shadow-outline flex flex-wrap items-center">
-            <div class="w-8 h-8 overflow-hidden rounded-full">
-              {{-- <img class="w-full h-full object-cover" src="img/user.svg" > --}}
-            </div>
-
-            <div class="ml-2 capitalize flex ">
-              <h1 class="text-sm text-gray-800 font-semibold m-0 p-0 leading-none">moeSaid</h1>
-              <i class="fad fa-chevron-down ml-2 text-xs leading-none"></i>
-            </div>
-          </button>
-
-          <button class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"></button>
-
-          <div class="text-gray-500 menu hidden md:mt-10 md:w-full rounded bg-white shadow-md absolute z-20 right-0 w-40 mt-5 py-2 animated faster">
-
-            <!-- item -->
-            <a class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out" href="#">
-              <i class="fad fa-user-edit text-xs mr-1"></i>
-              edit my profile
-            </a>
-            <!-- end item -->
-
-            <!-- item -->
-            <a class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out" href="#">
-              <i class="fad fa-inbox-in text-xs mr-1"></i>
-              my inbox
-            </a>
-            <!-- end item -->
-
-            <!-- item -->
-            <a class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out" href="#">
-              <i class="fad fa-badge-check text-xs mr-1"></i>
-              tasks
-            </a>
-            <!-- end item -->
-
-            <!-- item -->
-            <a class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out" href="#">
-              <i class="fad fa-comment-alt-dots text-xs mr-1"></i>
-              chats
-            </a>
-            <!-- end item -->
-
-            <hr>
-
-            <!-- item -->
-            <a class="px-4 py-2 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 hover:text-gray-900 transition-all duration-300 ease-in-out" href="#">
-              <i class="fad fa-user-times text-xs mr-1"></i>
-              log out
-            </a>
-            <!-- end item -->
-
-          </div>
-        </div>
-        <!-- end user -->
-
-        <!-- notifcation -->
-        <div class="dropdown relative mr-5 md:static">
-
-          <button class="text-gray-500 menu-btn p-0 m-0 hover:text-gray-900 focus:text-gray-900 focus:outline-none transition-all ease-in-out duration-300">
-            <i class="fad fa-bells"></i>
-          </button>
-
-          <button class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"></button>
-
-          <div class="menu hidden rounded bg-white md:right-0 md:w-full shadow-md absolute z-20 right-0 w-84 mt-5 py-2 animated faster">
-            <!-- top -->
-            <div class="px-4 py-2 flex flex-row justify-between items-center capitalize font-semibold text-sm">
-              <h1>notifications</h1>
-              <div class="bg-teal-100 border border-teal-200 text-teal-500 text-xs rounded px-1">
-                <strong>5</strong>
-              </div>
-            </div>
-            <hr>
-            <!-- end top -->
-
-            <!-- body -->
-
-            <!-- item -->
-            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
-
-              <div class="px-3 py-2 rounded mr-3 bg-gray-100 border border-gray-300">
-                <i class="fad fa-birthday-cake text-sm"></i>
-              </div>
-
-              <div class="flex-1 flex flex-rowbg-green-100">
-                <div class="flex-1">
-                  <h1 class="text-sm font-semibold">poll..</h1>
-                  <p class="text-xs text-gray-500">text here also</p>
-                </div>
-                <div class="text-right text-xs text-gray-500">
-                  <p>4 min ago</p>
-                </div>
-              </div>
-
-            </a>
-            <hr>
-            <!-- end item -->
-
-            <!-- item -->
-            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
-
-              <div class="px-3 py-2 rounded mr-3 bg-gray-100 border border-gray-300">
-                <i class="fad fa-user-circle text-sm"></i>
-              </div>
-
-              <div class="flex-1 flex flex-rowbg-green-100">
-                <div class="flex-1">
-                  <h1 class="text-sm font-semibold">mohamed..</h1>
-                  <p class="text-xs text-gray-500">text here also</p>
-                </div>
-                <div class="text-right text-xs text-gray-500">
-                  <p>78 min ago</p>
-                </div>
-              </div>
-
-            </a>
-            <hr>
-            <!-- end item -->
-
-            <!-- item -->
-            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
-
-              <div class="px-3 py-2 rounded mr-3 bg-gray-100 border border-gray-300">
-                <i class="fad fa-images text-sm"></i>
-              </div>
-
-              <div class="flex-1 flex flex-rowbg-green-100">
-                <div class="flex-1">
-                  <h1 class="text-sm font-semibold">new imag..</h1>
-                  <p class="text-xs text-gray-500">text here also</p>
-                </div>
-                <div class="text-right text-xs text-gray-500">
-                  <p>65 min ago</p>
-                </div>
-              </div>
-
-            </a>
-            <hr>
-            <!-- end item -->
-
-            <!-- item -->
-            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
-
-              <div class="px-3 py-2 rounded mr-3 bg-gray-100 border border-gray-300">
-                <i class="fad fa-alarm-exclamation text-sm"></i>
-              </div>
-
-              <div class="flex-1 flex flex-rowbg-green-100">
-                <div class="flex-1">
-                  <h1 class="text-sm font-semibold">time is up..</h1>
-                  <p class="text-xs text-gray-500">text here also</p>
-                </div>
-                <div class="text-right text-xs text-gray-500">
-                  <p>1 min ago</p>
-                </div>
-              </div>
-
-            </a>
-            <!-- end item -->
-
-
-            <!-- end body -->
-
-            <!-- bottom -->
-            <hr>
-            <div class="px-4 py-2 mt-2">
-              <a href="#" class="border border-gray-300 block text-center text-xs uppercase rounded p-1 hover:text-teal-500 transition-all ease-in-out duration-500">
-                view all
-              </a>
-            </div>
-            <!-- end bottom -->
-          </div>
-        </div>
-        <!-- end notifcation -->
-
-        <!-- messages -->
-        <div class="dropdown relative mr-5 md:static">
-
-          <button class="text-gray-500 menu-btn p-0 m-0 hover:text-gray-900 focus:text-gray-900 focus:outline-none transition-all ease-in-out duration-300">
-            <i class="fad fa-comments"></i>
-          </button>
-
-          <button class="hidden fixed top-0 left-0 z-10 w-full h-full menu-overflow"></button>
-
-          <div class="menu hidden md:w-full md:right-0 rounded bg-white shadow-md absolute z-20 right-0 w-84 mt-5 py-2 animated faster">
-            <!-- top -->
-            <div class="px-4 py-2 flex flex-row justify-between items-center capitalize font-semibold text-sm">
-              <h1>messages</h1>
-              <div class="bg-teal-100 border border-teal-200 text-teal-500 text-xs rounded px-1">
-                <strong>3</strong>
-              </div>
-            </div>
-            <hr>
-            <!-- end top -->
-
-            <!-- body -->
-
-            <!-- item -->
-            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
-
-              <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-100 border border-gray-300">
-                {{-- <img class="w-full h-full object-cover" src="img/user1.jpg" alt=""> --}}
-              </div>
-
-              <div class="flex-1 flex flex-rowbg-green-100">
-                <div class="flex-1">
-                  <h1 class="text-sm font-semibold">mohamed said</h1>
-                  <p class="text-xs text-gray-500">yeah i know</p>
-                </div>
-                <div class="text-right text-xs text-gray-500">
-                  <p>4 min ago</p>
-                </div>
-              </div>
-
-            </a>
-            <hr>
-            <!-- end item -->
-
-            <!-- item -->
-            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
-
-              <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-100 border border-gray-300">
-                {{-- <img class="w-full h-full object-cover" src="img/user2.jpg" alt=""> --}}
-              </div>
-
-              <div class="flex-1 flex flex-rowbg-green-100">
-                <div class="flex-1">
-                  <h1 class="text-sm font-semibold">sull goldmen</h1>
-                  <p class="text-xs text-gray-500">for sure</p>
-                </div>
-                <div class="text-right text-xs text-gray-500">
-                  <p>1 day ago</p>
-                </div>
-              </div>
-
-            </a>
-            <hr>
-            <!-- end item -->
-
-            <!-- item -->
-            <a class="flex flex-row items-center justify-start px-4 py-4 block capitalize font-medium text-sm tracking-wide bg-white hover:bg-gray-200 transition-all duration-300 ease-in-out" href="#">
-
-              <div class="w-10 h-10 rounded-full overflow-hidden mr-3 bg-gray-100 border border-gray-300">
-                {{-- <img class="w-full h-full object-cover" src="img/user3.jpg" alt=""> --}}
-              </div>
-
-              <div class="flex-1 flex flex-rowbg-green-100">
-                <div class="flex-1">
-                  <h1 class="text-sm font-semibold">mick</h1>
-                  <p class="text-xs text-gray-500">is typing ....</p>
-                </div>
-                <div class="text-right text-xs text-gray-500">
-                  <p>31 feb</p>
-                </div>
-              </div>
-
-            </a>
-            <!-- end item -->
-
-
-            <!-- end body -->
-
-            <!-- bottom -->
-            <hr>
-            <div class="px-4 py-2 mt-2">
-              <a href="#" class="border border-gray-300 block text-center text-xs uppercase rounded p-1 hover:text-teal-500 transition-all ease-in-out duration-500">
-                view all
-              </a>
-            </div>
-            <!-- end bottom -->
-          </div>
-        </div>
-        <!-- end messages -->
-
-
-      </div>
-      <!-- end right -->
-    </div>
-    <!-- end navbar content -->
-
-  </div>
-<!-- end navbar -->
+</aside>
