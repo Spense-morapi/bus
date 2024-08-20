@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Sample;
+use App\Livewire\Business\Business;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/test',Sample::class);
+    Route::get('business/index',Business::class)->name('business.index');
 });
 
 require __DIR__.'/auth.php';

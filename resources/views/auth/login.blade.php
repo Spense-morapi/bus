@@ -16,12 +16,12 @@
 
                     <!-- Input[ype="email"] -->
                     <div class="mt-4">
-                        <x-input-label :value="__('Email')" class=" dark:text-gray-100 text-gray-800"/>
+                        <x-input-label :value="__('Email')" class="dark:text-gray-100 text-gray-800"/>
                         <x-text-input type="email"
                                  id="email"
                                  name="email"
                                  value="{{ old('email') }}"
-                                 class="block w-full"
+                                 class="block w-full bg-blend-color"
                                  required
                                  autofocus/>
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
